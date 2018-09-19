@@ -104,8 +104,8 @@ export default {
   template: "#login-page",
   data: function() {
     return {
-      email: "chris@email.com",
-      password: "password",
+      email: "",
+      password: "",
       errors: []
     };
   },
@@ -116,7 +116,7 @@ export default {
         password: this.password
       };
       axios
-        .post("http://localhost:3000/api/sessions", params)
+        .post("https://timelyy.herokuapp.com/api/sessions", params)
         .then(response => {
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + response.data.jwt;

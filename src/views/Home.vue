@@ -150,7 +150,7 @@ export default {
   created: function() {
 
          
-        axios.get("http://localhost:3000/api/tasks").then(
+        axios.get("https://timelyy.herokuapp.com/api/tasks").then(
           function(response) {
             console.log(response.data);    
           }

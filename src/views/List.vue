@@ -34,11 +34,13 @@
 
 
    <div id="weaposs">
-     <h6>City_name: {{ city }}</h6>
+     <h6 style="width: 50px;">City_name: {{ city }}</h6>
 
     <h6>Weather: {{ description }}</h6>
      
     <h6>Temperature: {{ temp }}'C</h6>
+
+     <h6>Temperature: {{ funda(temp) }}'F</h6>
 
      <div><img id="wicons" src="" alt="Weather icon"></div>
 
@@ -48,7 +50,7 @@
 
      </div>
 
-
+<!-- wicon -->
 
 <!-- 
     Weather Data End 
@@ -96,8 +98,6 @@
 
              <!--  List Ends -->
 
-
-
      <!-- Next _ 5 day button Start -->
          
 
@@ -134,7 +134,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Current- City : Chicago</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Current- City : {{ citys }}</h5>
         <button type="button"  class="close" data-dismiss="modal" aria-label="Close" id="bats">
           <span aria-hidden="true" id="shis">&times;</span>
            </button>
@@ -255,8 +255,6 @@
            Indiviual Modal Ends -->
 
 
-
-
    <!-- Adding Lists and items Begins -->
 
 
@@ -375,7 +373,6 @@
           Modal Earth End -->
 
 
-
              <!-- MOney Bank Begin -->
 
        <div id="money">
@@ -387,8 +384,6 @@
 
     <!-- Money Bank End -->
 
-
-    
 
 <!-- 
     MOney Bank Modal 
@@ -481,6 +476,7 @@
   position: absolute;
   left: 1320px;
   top: 450px;
+  margin-top:30px;
 }
 
 .potas {
@@ -792,29 +788,45 @@ export default {
       item3: "",
       item4: "",
       item5: "",
-      item6: ""
+      item6: "",
+      satz:""
     };
   },
   created: function() {
+
+
     // Globe Functions
+     
+    axios.get("http://ipinfo.io").then(function(response) {
+              
+              //console.log(response.data.city);
+              var ctz = response.data.city;
 
     axios
       .get(
-        `https://api.weatherbit.io/v2.0/forecast/3hourly?city=chicago&key=${process.env.VUE_APP_WEATHER_API_KEY}`
+        `https://api.weatherbit.io/v2.0/forecast/3hourly?city=` + ctz + `&key=${process.env.VUE_APP_WEATHER_API_KEY}`
       )
       .then(
         function(response) {
           this.test = response.data.data;
 
-          console.log(this.test);
+          //console.log(this.test);
           this.citys = response.data.city_name;
+          //console.log("Elon Musk")
+          console.log(this.citys);
           this.array = response.data.data;
         }.bind(this)
       );
 
-    // Global Functions ENd
 
-    axios.get("http://localhost:3000/api/tas").then(
+        }.bind(this));
+
+
+
+    // Global Functions ENd
+   
+
+    axios.get("https://timelyy.herokuapp.com/api/tas").then(
       function(response) {
         console.table(response.data);
         console.log(response.data["name"]);
@@ -910,7 +922,16 @@ export default {
 
     //Weather_Functions Start:
 
-    axios.get("http://localhost:3000/api/weather").then(
+    //Geo Location  Begin
+  
+         axios.get("http://ipinfo.io").then(function(response) {
+              
+              console.log(response.data.city);
+              
+              var ctzzz = response.data.city;
+
+
+    axios.get(`https://api.weatherbit.io/v2.0/current?city=` + ctzzz + `&key=${process.env.VUE_APP_BACK_API_KEY}`).then(
       function(response) {
         this.city = response.data["data"][0]["city_name"];
         this.description = response.data["data"][0]["weather"]["description"];
@@ -926,9 +947,15 @@ export default {
 
     //weather Functions Ending
 
+
+        // Geo location End
+
+
+         }.bind(this));
+
     // Getting User's Lists Begin:
 
-    axios.get("http://localhost:3000/api/lists").then(
+    axios.get("https://timelyy.herokuapp.com/api/lists").then(
       function(response) {
         console.log("Vj is awesome");
         console.log(response.data["lists"]);
@@ -942,12 +969,10 @@ export default {
 
   methods: {
     display: function() {
-      var params = {
-        city_n: this.city_name
-      };
-
-      console.log(params);
-      axios.post("http://localhost:3000/api/weather", params).then(
+      
+      var city_n = this.city_name;
+      
+      axios.post(`https://api.weatherbit.io/v2.0/current?city=`+ city_n + `&key=${process.env.VUE_APP_BACK_API_KEY}`).then(
         function(response) {
           this.city = response.data["data"][0]["city_name"];
           this.description = response.data["data"][0]["weather"]["description"];
@@ -1022,7 +1047,7 @@ export default {
         id: input.id
       };
 
-      axios.post("http://localhost:3000/api/magic", params).then(
+      axios.post("https://timelyy.herokuapp.com/api/magic", params).then(
         function(response) {
           console.log("-------");
           console.log(response.data);
@@ -1076,7 +1101,7 @@ export default {
       };
 
       axios
-        .post("http://localhost:3000/api/list", params)
+        .post("https://timelyy.herokuapp.com/api/list", params)
         .then(function(response) {
           console.log(response.data);
           this.lures.push(response.data);
@@ -1114,7 +1139,7 @@ export default {
       };
 
       axios
-        .post("http://localhost:3000/api/senditem", params)
+        .post("https://timelyy.herokuapp.com/api/senditem", params)
         .then(function(response) {
           console.log(response.data);
 
@@ -1130,7 +1155,7 @@ export default {
     deltaps: function(input) {
       console.log(input);
 
-      axios.delete("http://localhost:3000/api/lisdel/" + input.id).then(function(response) {
+      axios.delete("https://timelyy.herokuapp.com/api/lisdel/" + input.id).then(function(response) {
 
                 console.log(response.data);
 
@@ -1139,7 +1164,21 @@ export default {
 
 
       }.bind(this));
+    },
+
+       funda :function(temp) {
+
+
+      var ind = parseInt(temp);
+
+      var pl = ind * 9 / 5 + 32;
+
+      return Math.round(pl);
+
+
     }
+  
+
   },
   computed: {}
 };

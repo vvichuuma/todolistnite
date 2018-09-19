@@ -32,11 +32,13 @@
     
 
     <div id="weapos">
-     <h6>City_name: {{ city }}</h6>
+     <h6 style="width: 50px;">City_name: {{ city }}</h6>
 
     <h6>Weather: {{ description }}</h6>
      
     <h6>Temperature: {{ temp }}'C</h6>
+
+    <h6>Temperature: {{ funda(temp) }}'F</h6>
 
      <div><img id="wicon" src="" alt="Weather icon"></div>
 
@@ -225,13 +227,11 @@
  -->
 
 
-
-   
  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Current- City : Chicago</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Current- City : {{ citys }}</h5>
         <button type="button"  class="close" data-dismiss="modal" aria-label="Close" id="bat">
           <span aria-hidden="true" id="shi">&times;</span>
            </button>
@@ -436,6 +436,7 @@ width:100px;
  position: absolute;
  left:1320px;
  top:450px;
+ margin-top: 30px;
 
 
 }
@@ -1220,16 +1221,20 @@ export default {
       taskdes:"",
       tasktime:"",
       taskid:"",
-      entiretask:{}
+      entiretask:{},
+      satz:""
     };
   },
   created: function() {
 
     // Globe Functions 
-  
-    axios.get(`https://api.weatherbit.io/v2.0/forecast/3hourly?city=chicago&key=${process.env.VUE_APP_WEATHER_API_KEY}`).then(function(response) {
 
-  
+    axios.get("http://ipinfo.io").then(function(response) {
+
+      var ctz = response.data.city;
+ 
+    axios.get(`https://api.weatherbit.io/v2.0/forecast/3hourly?city=`+ ctz + `&key=${process.env.VUE_APP_WEATHER_API_KEY}`).then(function(response) {
+
 
       this.test = response.data.data;
 
@@ -1238,13 +1243,15 @@ export default {
       this.array = response.data.data;
 
         
-    }.bind(this));  
+    }.bind(this)); 
+
+    }.bind(this)); 
 
        
     // Global Functions ENd
 
 
-    axios.get("http://localhost:3000/api/tas").then(
+    axios.get("https://timelyy.herokuapp.com/api/tas").then(
       function(response) {
         //console.table(response.data);
         //console.log(response.data["name"]);
@@ -1348,7 +1355,15 @@ export default {
 
     //Weather_Functions Start:
 
-    axios.get("http://localhost:3000/api/weather").then(
+
+    axios.get("http://ipinfo.io").then(function(response) { 
+
+           
+           var monty = response.data.city;
+
+
+   
+    axios.get(`https://api.weatherbit.io/v2.0/current?city=`+ monty + `&key=${process.env.VUE_APP_BACK_API_KEY}`).then(
       function(response) {
         this.city = response.data["data"][0]["city_name"];
         this.description = response.data["data"][0]["weather"]["description"];
@@ -1362,6 +1377,8 @@ export default {
       }.bind(this)
     );
 
+      }.bind(this));
+
     //weather Functions Ending
 
     
@@ -1372,7 +1389,7 @@ export default {
  
     //User task's Begin:
    
-    axios.get("http://localhost:3000/api/usertas?today=true").then(function(response) {
+    axios.get("https://timelyy.herokuapp.com/api/usertas?today=true").then(function(response) {
 
           
       //console.log(response.data.user_task);
@@ -1405,12 +1422,12 @@ export default {
   methods: {
 
     display: function() {
-      var params = {
-        city_n: this.city_name
-      };
+      
+      var city_n = this.city_name;
+      
 
       //console.log(params);
-      axios.post("http://localhost:3000/api/weather", params).then(
+      axios.post(`https://api.weatherbit.io/v2.0/current?city=`+ city_n + `&key=${process.env.VUE_APP_BACK_API_KEY}`).then(
         function(response) {
           this.city = response.data["data"][0]["city_name"];
           this.description = response.data["data"][0]["weather"]["description"];
@@ -1442,7 +1459,7 @@ export default {
       };
 
       axios
-        .post("http://localhost:3000/api/tasks", params)
+        .post("https://timelyy.herokuapp.com/api/tasks", params)
         .then(function(response) {
           //console.log(response);
 
@@ -1660,7 +1677,7 @@ export default {
 
 
 
-      axios.patch("http://localhost:3000/api/uppt/" + this.taskid, params).then(function(response) {
+      axios.patch("https://timelyy.herokuapp.com/api/uppt/" + this.taskid, params).then(function(response) {
         //console.log("sirriki Vassum");
         //console.log(response.data);
         //console.log('entire', this.entiretask)
@@ -1687,7 +1704,7 @@ export default {
        console.log(input);
        //console.log(input1);
 
-      axios.delete("http://localhost:3000/api/deltas/" + input.id).then(function(response) {
+      axios.delete("https://timelyy.herokuapp.com/api/deltas/" + input.id).then(function(response) {
 
         //console.log(response.data);
                 
@@ -1706,7 +1723,7 @@ export default {
         
       // console.log("Shitty");
 
-       axios.get("http://localhost:3000/api/usertas?today=true").then(function(response) {
+       axios.get("https://timelyy.herokuapp.com/api/usertas?today=true").then(function(response) {
 
 
              var times = response.data.user_task;
@@ -1800,6 +1817,20 @@ export default {
      
 
 },
+
+
+    funda :function(temp) {
+
+
+      var ind = parseInt(temp);
+
+      var pl = ind * 9 / 5 + 32;
+
+      return Math.round(pl);
+
+
+    }
+  
 
   },
   computed: {}

@@ -39,11 +39,15 @@
     
 
     <div id="weapos">
-     <h6>City_name: {{ city }}</h6>
+     <h6 style="width: 50px;">City_name: {{ city }}</h6>
 
     <h6>Weather: {{ description }}</h6>
      
     <h6>Temperature: {{ temp }}'C</h6>
+
+   <!--  Testing after -->
+
+    <h6>Temperature: {{ funda(temp) }}'F</h6>
 
      <div><img id="wicon" src="" alt="Weather icon"></div>
 
@@ -141,29 +145,38 @@
      <!-- Add Task Data-->
 
           <div id="th"></div>
+          <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#adding" id="Sha" >+</button>
+
+
+<!-- 
+        <div id="th"></div>
           <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Add tasks" id="Sha" v-on:click="work()">+</button>
+
+ -->
+
+
+
   
      <!-- End Task Data -->
 
-     
-     <h5 class="tday">Today</h5>
 
-     <h5 class="per">Add task</h5>
-   <div id="horizontal-line"></div>
-   <div id="vertical-line"></div>
+     <!--  
+      Add Task Modal
+ -->
 
 
-   <!-- Task Form -->
-      
-    <div id="bg-modal">
-      <div class="modal-content">
-      
-         <div class="close" v-on:click="closee()">+</div>
-       
-         
-          <form>
-              
-                <!-- Text  -->
+
+<div class="modal fade" id="adding" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"><span id="addss">Add Tasks</span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+               <!-- Text  -->
                <div id="taskpos">
               <label for="example-text-input" class="col-2 col-form-label"><span class="loosu">TASK<span class="mdd">DESCRIPTION:</span></span></label>
              <div class="col-10">
@@ -172,7 +185,9 @@
              </div>  
                <!-- End Text -->  
 
-              <!-- Date -->
+
+
+                   <!-- Date -->
 
               <div class="form-group row">
                 <label for="example-date-input" class="col-2 col-form-label"><span class="dupd">DATE:</span></label>
@@ -182,8 +197,9 @@
               </div>
                       
               <!-- End DAte --> 
-              
-              <!-- Start Time -->
+
+
+                  <!-- Start Time -->
                 
 
                <div class="form-group row">
@@ -195,24 +211,108 @@
 
               <!-- End Time -->
 
+            <ul class="dot">
+             <li class="text-danger" v-for="error in errors">{{ error }}</li>
+            </ul>
 
-                   
+
+
+       <!--    <div id="space_2">
+            <button type="button" class="btn btn-primary" v-on:click="task_add()">Submit</button>
+          </div> 
+ -->
+
+         
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <button type="button" class="btn btn-primary" v-on:click="task_add()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+    <!--   End Task Modal
+ -->
+     
+     <h5 class="tday">Today</h5>
+
+     <h5 class="per">Add task</h5>
+   <div id="horizontal-line"></div>
+   <div id="vertical-line"></div>
+
+
+   <!-- Task Form -->
+      
+  <!--   <div id="bg-modal">
+      <div class="modal-content">
+      
+         <div class="close" v-on:click="closee()">+</div>
+       
+         
+          <form>
+ -->              
+           <!--   Text  -->
+
+
+
+        <!--        <div id="taskpos">
+              <label for="example-text-input" class="col-2 col-form-label"><span class="loosu">TASK<span class="mdd">DESCRIPTION:</span></span></label>
+             <div class="col-10">
+             <input class="form-control" type="text" placeholder="enter task description here" id="example-text-input" v-model="task">
+             </div>
+             </div>
+ -->
+
+
+
+
+               <!-- End Text -->   
+
+              <!-- Date -->
+
+         <!--      <div class="form-group row">
+                <label for="example-date-input" class="col-2 col-form-label"><span class="dupd">DATE:</span></label>
+                <div class="col-4" id="vj">
+                  <input class="form-control" type="date" value="2011-08-19" id="example-date-input" v-model="date">
+                </div>
+              </div>
+ -->                      
+              <!-- End DAte --> 
+              
+              <!-- Start Time -->
+                
+<!-- 
+               <div class="form-group row">
+                  <label for="example-time-input" class="col-2 col-form-label"><span class="dupt">TIME:</span></label>
+                  <div class="col-4" id="vt">
+                    <input class="form-control" type="time" value="13:45:00" id="example-time-input" v-model="time_t">
+                  </div>
+                </div>
+ -->
+              <!-- End Time -->
+
+
+      <!--              
              <div id="space_2">
             <button type="button" class="btn btn-primary" v-on:click="task_add()">Submit</button>
           </div> 
-
-
+ -->
+<!-- 
            <ul class="dot">
             <li class="text-danger" v-for="error in errors">{{ error }}</li>
            </ul>
+ -->
 
-
-         </form>
+         <!-- </form>
 
 
 
       </div>
-    </div>
+    </div> -->
 
 
    <!-- End of Task Forms -->
@@ -233,6 +333,26 @@
               </div>
           </div>
         <!-- Task confirmation modal end-->
+
+
+
+<!-- 
+       Task Dignified Begin
+ -->
+
+
+    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+         Task Has Been Added!!
+    </div>
+  </div>
+</div>
+
+
+
+<!-- 
+       Task Dignified End -->
       
 
 
@@ -243,7 +363,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Current- City : Chicago</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Current- City : {{ citys }}</h5>
         <button type="button"  class="close" data-dismiss="modal" aria-label="Close" id="bat">
           <span aria-hidden="true" id="shi">&times;</span>
            </button>
@@ -413,6 +533,7 @@ body {
   position: absolute;
   left: 1320px;
   top: 450px;
+  margin-top: 40px;
 }
 
 .bur {
@@ -787,11 +908,20 @@ body {
 
 /*money bank ending*/
 
+#addss{
+
+  position: relative;
+  top:25px;
+  font-size: 30px;
+
+
+}
+
 </style>
 
 <script>
 var axios = require("axios");
-console.log(axios);
+//console.log(axios);
 export default {
   data: function() {
     return {
@@ -813,32 +943,51 @@ export default {
       url: "https://www.weatherbit.io/static/img/icons/c04d.png",
       weekpay: "",
       weekexpense:"",
-      weeksave:""
+      weeksave:"",
+      lat:"",
+      lon:"",
+      result:[],
+      satz:""
     };
   },
   created: function() {
+
+   
     // Globe Functions
+     
+    axios.get("http://ipinfo.io").then(function(response) {
+              
+              //console.log(response.data.city);
+              this.satz = response.data.city;
+              var ctz = this.satz;
 
     axios
       .get(
-        `https://api.weatherbit.io/v2.0/forecast/3hourly?city=chicago&key=${process.env.VUE_APP_WEATHER_API_KEY}`
+        `https://api.weatherbit.io/v2.0/forecast/3hourly?city=` + ctz + `&key=${process.env.VUE_APP_WEATHER_API_KEY}`
       )
       .then(
         function(response) {
           this.test = response.data.data;
 
-          console.log(this.test);
+          //console.log(this.test);
           this.citys = response.data.city_name;
+          //console.log("Elon Musk")
+          console.log(this.citys);
           this.array = response.data.data;
         }.bind(this)
       );
 
+
+        }.bind(this));
+
+
+
     // Global Functions ENd
 
-    axios.get("http://localhost:3000/api/tas").then(
+    axios.get("https://timelyy.herokuapp.com/api/tas").then(
       function(response) {
-        console.table(response.data);
-        console.log(response.data["name"]);
+        //console.table(response.data);
+        //console.log(response.data["name"]);
         this.user = response.data["name"];
       }.bind(this)
     );
@@ -932,15 +1081,25 @@ export default {
       " " +
       dd;
 
-    console.log(fina);
+    //console.log(fina);
 
     this.time = fina;
 
     // Date Functions - Ending
 
+
+    //Geo Location  Begin
+  
+         axios.get("http://ipinfo.io").then(function(response) {
+              
+              console.log(response.data.city);
+              this.satz = response.data.city;
+              var ctz = this.satz
+
+
     //Weather_Functions Start:
 
-    axios.get("http://localhost:3000/api/weather").then(
+    axios.get(`https://api.weatherbit.io/v2.0/current?city=` + ctz + `&key=${process.env.VUE_APP_BACK_API_KEY}`).then(
       function(response) {
         this.city = response.data["data"][0]["city_name"];
         this.description = response.data["data"][0]["weather"]["description"];
@@ -955,6 +1114,13 @@ export default {
     );
 
     //weather Functions Ending
+
+
+        // Geo location End
+
+
+         }.bind(this));
+
   },
   mounted: function() {
     var modal = document.querySelector("#bg-modal");
@@ -970,15 +1136,17 @@ export default {
         mode.style.display = "none";
       }
     };
+
+             
+
   },
   methods: {
     display: function() {
-      var params = {
-        city_n: this.city_name
-      };
+      
+       var city_n = this.city_name;
+      
 
-      console.log(params);
-      axios.post("http://localhost:3000/api/weather", params).then(
+     axios.post(`https://api.weatherbit.io/v2.0/current?city=`+ city_n + `&key=${process.env.VUE_APP_BACK_API_KEY}`).then(
         function(response) {
           this.city = response.data["data"][0]["city_name"];
           this.description = response.data["data"][0]["weather"]["description"];
@@ -999,6 +1167,8 @@ export default {
 
     work: function() {
       document.querySelector("#bg-modal").style.display = "flex";
+       
+
     },
 
     task_add: function() {
@@ -1009,12 +1179,17 @@ export default {
       };
 
       axios
-        .post("http://localhost:3000/api/tasks", params)
+        .post("https://timelyy.herokuapp.com/api/tasks", params)
         .then(function(response) {
-          console.log(response);
+          //console.log(response);
 
-          document.querySelector("#bg-modal").style.display = "none";
-          document.querySelector("#bg-task-modal").style.display = "flex";
+          // document.querySelector("#bg-modal").style.display = "none";
+          // document.querySelector("#bg-task-modal").style.display = "flex";
+
+         
+        $("#adding").trigger("click");
+ 
+
         })
         .catch(error => {
           this.errors = error.response.data.errors;
@@ -1127,6 +1302,18 @@ export default {
 
 
     },
+
+    funda :function(temp) {
+
+
+      var ind = parseInt(temp);
+
+      var pl = ind * 9 / 5 + 32;
+
+      return Math.round(pl);
+
+
+    }
   
 
 
